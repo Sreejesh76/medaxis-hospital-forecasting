@@ -40,12 +40,12 @@ def init_data():
         print(f"[MedAxis Init] Sample CSV upload template ready at {template_csv}")
 
 def print_banner():
-    banner = """
+    banner = r"""
 ========================================================================
    __  __          _     _            _     
   |  \/  | ___  __| |   / \   __  __ (_)___ 
   | |\/| |/ _ \/ _` |  / _ \  \ \/ / | / __|
-  | |  | |  __/ (_| | / ___ \  >  <  | \__ \\
+  | |  | |  __/ (_| | / ___ \  >  <  | \__ \
   |_|  |_|\___|\__,_|/_/   \_\/_/\_\ |_|___/
                                              
   AI-Driven Predictive Hospital Bed & Patient-Flow Forecasting
