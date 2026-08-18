@@ -1,4 +1,7 @@
-# MedAxis: AI-Driven Predictive Hospital Bed & Patient-Flow Forecasting
+# MedAxis: AI-Driven Predictive Hospital Bed & Patient-Flow Forecasting ,
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-medaxis--hospital--forecasting.onrender.com-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://medaxis-hospital-forecasting.onrender.com)
+
+> 🔗 **Public Prototype URL**: [https://medaxis-hospital-forecasting.onrender.com](https://medaxis-hospital-forecasting.onrender.com)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com/)
