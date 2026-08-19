@@ -640,6 +640,37 @@ async function handleFileUpload(event) {
     }
 }
 
+// 1-Click Prototype Sample Loader
+async function loadPrototypeSample() {
+    const statusBox = document.getElementById('upload-status');
+    statusBox.classList.remove('hidden');
+    statusBox.className = 'text-xs p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/50 text-emerald-300';
+    statusBox.innerText = 'Loading 48-hour Emergency & ICU prototype dataset...';
+
+    try {
+        const res = await fetch('/api/load-sample-prototype', {
+            method: 'POST'
+        });
+        const result = await res.json();
+
+        if (res.ok) {
+            statusBox.className = 'text-xs p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/50 text-emerald-300';
+            statusBox.innerText = `✓ Loaded ${result.total_rows_ingested} records across: ${result.wards_detected.join(', ')}`;
+            showToast('Prototype dataset loaded & forecasts synchronized!', 'success');
+            setTimeout(() => {
+                closeModal('upload-modal');
+                refreshData();
+            }, 1200);
+        } else {
+            statusBox.className = 'text-xs p-3 rounded-lg bg-rose-950/60 border border-rose-500/50 text-rose-300';
+            statusBox.innerText = `Error: ${result.detail || 'Failed to load sample dataset'}`;
+        }
+    } catch (err) {
+        statusBox.className = 'text-xs p-3 rounded-lg bg-rose-950/60 border border-rose-500/50 text-rose-300';
+        statusBox.innerText = 'Failed to connect to server.';
+    }
+}
+
 // Executive Briefing Builder
 function populateBriefingModal() {
     const sum = appState.summaryData;

@@ -126,6 +126,180 @@ python test_system.py
 
 ---
 
+---
+
+## 🧪 Prototype Sample Ingestion Dataset
+
+MedAxis includes a standardized 48-hour prototype dataset (`data/sample_prototype_insert.csv`) representing real-world hourly hospital admissions, discharges, and bed occupancy across **Emergency (ED)** and **Intensive Care (ICU)** units.
+
+[![Dataset Size](https://img.shields.io/badge/Records-96_Hourly_Rows-blue.svg)]()
+[![Wards Covered](https://img.shields.io/badge/Wards-Emergency_%26_ICU-emerald.svg)]()
+[![Horizon](https://img.shields.io/badge/Timespan-48_Hours-indigo.svg)]()
+[![File Location](https://img.shields.io/badge/File-data%2Fsample__prototype__insert.csv-amber.svg)](file:///C:/Users/Sivadath.R/.gemini/antigravity/scratch/medaxis-hospital-forecasting/data/sample_prototype_insert.csv)
+
+### 📋 Dataset Schema & Data Dictionary
+
+| Column Name | Data Type | Example Value | Description & Clinical Utility |
+| :--- | :--- | :--- | :--- |
+| `timestamp` | `YYYY-MM-DD HH:MM:SS` | `2026-08-16 15:00:00` | Hourly observation timestamp for time-series forecasting |
+| `ward` | `String` | `Emergency`, `ICU` | Departmental ward identifier |
+| `occupied_beds` | `Integer` | `42` | Total active inpatient bed census at that hour |
+| `total_beds` | `Integer` | `50` | Operational capacity ceiling of the ward |
+| `admissions` | `Integer` | `6` | Newly admitted patients in that 1-hour window |
+| `discharges` | `Integer` | `4` | Discharged / transferred patients in that 1-hour window |
+
+### 🔍 Sample Data Preview (First 16 Records)
+
+```csv
+timestamp,ward,occupied_beds,total_beds,admissions,discharges
+2026-08-16 15:00:00,Emergency,42,50,2,1
+2026-08-16 15:00:00,ICU,24,30,2,1
+2026-08-16 16:00:00,Emergency,42,50,4,2
+2026-08-16 16:00:00,ICU,24,30,0,0
+2026-08-16 17:00:00,Emergency,45,50,2,2
+2026-08-16 17:00:00,ICU,27,30,1,1
+2026-08-16 18:00:00,Emergency,45,50,3,2
+2026-08-16 18:00:00,ICU,23,30,2,2
+2026-08-16 19:00:00,Emergency,45,50,4,4
+2026-08-16 19:00:00,ICU,24,30,0,2
+2026-08-16 20:00:00,Emergency,36,50,4,4
+2026-08-16 20:00:00,ICU,27,30,1,2
+2026-08-16 21:00:00,Emergency,42,50,5,1
+2026-08-16 21:00:00,ICU,28,30,2,2
+2026-08-16 22:00:00,Emergency,42,50,3,2
+2026-08-16 22:00:00,ICU,23,30,1,2
+```
+
+<details>
+<summary><b>👉 Click here to expand the full 96-row prototype dataset</b></summary>
+
+```csv
+timestamp,ward,occupied_beds,total_beds,admissions,discharges
+2026-08-16 15:00:00,Emergency,42,50,2,1
+2026-08-16 15:00:00,ICU,24,30,2,1
+2026-08-16 16:00:00,Emergency,42,50,4,2
+2026-08-16 16:00:00,ICU,24,30,0,0
+2026-08-16 17:00:00,Emergency,45,50,2,2
+2026-08-16 17:00:00,ICU,27,30,1,1
+2026-08-16 18:00:00,Emergency,45,50,3,2
+2026-08-16 18:00:00,ICU,23,30,2,2
+2026-08-16 19:00:00,Emergency,45,50,4,4
+2026-08-16 19:00:00,ICU,24,30,0,2
+2026-08-16 20:00:00,Emergency,36,50,4,4
+2026-08-16 20:00:00,ICU,27,30,1,2
+2026-08-16 21:00:00,Emergency,42,50,5,1
+2026-08-16 21:00:00,ICU,28,30,2,2
+2026-08-16 22:00:00,Emergency,42,50,3,2
+2026-08-16 22:00:00,ICU,23,30,1,2
+2026-08-16 23:00:00,Emergency,44,50,6,4
+2026-08-16 23:00:00,ICU,22,30,1,2
+2026-08-17 00:00:00,Emergency,42,50,4,1
+2026-08-17 00:00:00,ICU,25,30,2,0
+2026-08-17 01:00:00,Emergency,40,50,2,2
+2026-08-17 01:00:00,ICU,27,30,2,1
+2026-08-17 02:00:00,Emergency,43,50,4,4
+2026-08-17 02:00:00,ICU,24,30,1,2
+2026-08-17 03:00:00,Emergency,43,50,6,5
+2026-08-17 03:00:00,ICU,28,30,1,1
+2026-08-17 04:00:00,Emergency,34,50,4,5
+2026-08-17 04:00:00,ICU,25,30,2,1
+2026-08-17 05:00:00,Emergency,43,50,4,5
+2026-08-17 05:00:00,ICU,28,30,1,0
+2026-08-17 06:00:00,Emergency,48,50,6,2
+2026-08-17 06:00:00,ICU,22,30,2,1
+2026-08-17 07:00:00,Emergency,36,50,3,4
+2026-08-17 07:00:00,ICU,28,30,0,0
+2026-08-17 08:00:00,Emergency,47,50,6,1
+2026-08-17 08:00:00,ICU,26,30,0,1
+2026-08-17 09:00:00,Emergency,35,50,5,4
+2026-08-17 09:00:00,ICU,23,30,0,0
+2026-08-17 10:00:00,Emergency,40,50,4,3
+2026-08-17 10:00:00,ICU,24,30,2,1
+2026-08-17 11:00:00,Emergency,44,50,6,4
+2026-08-17 11:00:00,ICU,24,30,1,1
+2026-08-17 12:00:00,Emergency,44,50,6,4
+2026-08-17 12:00:00,ICU,24,30,1,1
+2026-08-17 13:00:00,Emergency,48,50,5,3
+2026-08-17 13:00:00,ICU,22,30,0,1
+2026-08-17 14:00:00,Emergency,41,50,5,3
+2026-08-17 14:00:00,ICU,22,30,0,0
+2026-08-17 15:00:00,Emergency,40,50,6,4
+2026-08-17 15:00:00,ICU,24,30,2,1
+2026-08-17 16:00:00,Emergency,46,50,6,2
+2026-08-17 16:00:00,ICU,24,30,2,0
+2026-08-17 17:00:00,Emergency,39,50,2,4
+2026-08-17 17:00:00,ICU,25,30,1,1
+2026-08-17 18:00:00,Emergency,39,50,2,2
+2026-08-17 18:00:00,ICU,23,30,1,1
+2026-08-17 19:00:00,Emergency,38,50,2,5
+2026-08-17 19:00:00,ICU,26,30,2,1
+2026-08-17 20:00:00,Emergency,48,50,4,1
+2026-08-17 20:00:00,ICU,23,30,0,0
+2026-08-17 21:00:00,Emergency,42,50,5,5
+2026-08-17 21:00:00,ICU,25,30,0,2
+2026-08-17 22:00:00,Emergency,46,50,3,3
+2026-08-17 22:00:00,ICU,28,30,1,0
+2026-08-17 23:00:00,Emergency,45,50,2,4
+2026-08-17 23:00:00,ICU,22,30,0,1
+2026-08-18 00:00:00,Emergency,37,50,2,5
+2026-08-18 00:00:00,ICU,24,30,1,0
+2026-08-18 01:00:00,Emergency,48,50,3,5
+2026-08-18 01:00:00,ICU,27,30,1,0
+2026-08-18 02:00:00,Emergency,36,50,2,3
+2026-08-18 02:00:00,ICU,27,30,0,2
+2026-08-18 03:00:00,Emergency,43,50,6,2
+2026-08-18 03:00:00,ICU,22,30,2,1
+2026-08-18 04:00:00,Emergency,45,50,2,2
+2026-08-18 04:00:00,ICU,24,30,2,2
+2026-08-18 05:00:00,Emergency,34,50,6,4
+2026-08-18 05:00:00,ICU,27,30,0,2
+2026-08-18 06:00:00,Emergency,41,50,6,4
+2026-08-18 06:00:00,ICU,28,30,2,1
+2026-08-18 07:00:00,Emergency,36,50,4,3
+2026-08-18 07:00:00,ICU,23,30,2,1
+2026-08-18 08:00:00,Emergency,35,50,3,3
+2026-08-18 08:00:00,ICU,25,30,2,1
+2026-08-18 09:00:00,Emergency,42,50,2,3
+2026-08-18 09:00:00,ICU,24,30,0,1
+2026-08-18 10:00:00,Emergency,37,50,4,4
+2026-08-18 10:00:00,ICU,28,30,2,1
+2026-08-18 11:00:00,Emergency,38,50,6,1
+2026-08-18 11:00:00,ICU,26,30,1,1
+2026-08-18 12:00:00,Emergency,44,50,3,5
+2026-08-18 12:00:00,ICU,24,30,2,0
+2026-08-18 13:00:00,Emergency,48,50,4,5
+2026-08-18 13:00:00,ICU,28,30,2,2
+2026-08-18 14:00:00,Emergency,34,50,3,4
+2026-08-18 14:00:00,ICU,22,30,0,2
+```
+</details>
+
+### 🚀 How to Ingest & Test with this Sample Data
+
+#### Method 1: 1-Click Ingest via Web Command Center (Recommended)
+1. Open the MedAxis Web Dashboard at `http://127.0.0.1:8000`.
+2. Click **"Upload CSV"** in the top navigation bar.
+3. Click the **"⚡ Load Sample Data"** button for instant ingestion.
+4. The dashboard charts, RAG status cards, and alerts will immediately re-sync to this 48-hour timeline!
+
+#### Method 2: API Ingestion via cURL
+```bash
+curl -X POST "http://127.0.0.1:8000/api/upload-csv" \
+  -F "file=@data/sample_prototype_insert.csv"
+```
+
+#### Method 3: Direct Download & Custom Ingest
+Download the file directly from `http://127.0.0.1:8000/data/download-prototype-sample` or use Python:
+```python
+import requests
+
+with open("data/sample_prototype_insert.csv", "rb") as f:
+    response = requests.post("http://127.0.0.1:8000/api/upload-csv", files={"file": f})
+    print(response.json())
+```
+
+---
+
 ## 📡 REST API Reference
 
 | Endpoint | Method | Description |
@@ -137,7 +311,9 @@ python test_system.py
 | `/api/alerts/dispatch` | `POST` | Simulate alert transmission via SMS, Email, or Hospital Pager |
 | `/api/alerts/history` | `GET` | Audit log of dispatched notifications |
 | `/api/upload-csv` | `POST` | Ingest hospital CSV log file and validate schema |
-| `/data/download-template` | `GET` | Download sample CSV format for custom hospital data |
+| `/api/load-sample-prototype` | `POST` | 1-Click instant loader for the 48h prototype sample dataset |
+| `/data/download-prototype-sample` | `GET` | Download the prototype sample CSV dataset |
+| `/data/download-template` | `GET` | Download standard sample CSV template for custom hospital logs |
 
 ---
 
@@ -154,6 +330,7 @@ medaxis-hospital-forecasting/
 │   └── app.py                    # FastAPI application & REST endpoints
 ├── data/
 │   ├── sample_hospital_historical.csv  # 90-day multi-ward baseline dataset
+│   ├── sample_prototype_insert.csv     # 48-hour Emergency & ICU prototype dataset
 │   └── sample_upload_template.csv      # Sample CSV template for user uploads
 ├── static/
 │   ├── css/styles.css            # Command center styling & print rules
@@ -165,6 +342,8 @@ medaxis-hospital-forecasting/
 ├── requirements.txt              # Production dependencies
 ├── start.bat                     # 1-click Windows startup script
 ├── start.sh                      # 1-click Linux/macOS startup script
+├── render.yaml                   # 1-click Render.com cloud deployment config
+├── Procfile                      # Web process definition for PaaS hosting
 ├── .gitignore                    # Git ignore file
 └── README.md                     # Comprehensive documentation
 ```

@@ -314,3 +314,67 @@ async def download_csv_template():
             filename="medaxis_sample_hospital_template.csv"
         )
     raise HTTPException(status_code=404, detail="Template file not found")
+
+
+@app.get("/data/download-prototype-sample")
+async def download_prototype_sample():
+    """Serves the exact prototype 48-hour sample insert CSV dataset for download."""
+    prototype_path = os.path.join(DATA_DIR, "sample_prototype_insert.csv")
+    if not os.path.exists(prototype_path):
+        prototype_path = sample_template_path
+    if os.path.exists(prototype_path):
+        return FileResponse(
+            prototype_path,
+            media_type="text/csv",
+            filename="medaxis_sample_prototype_insert.csv"
+        )
+    raise HTTPException(status_code=404, detail="Sample prototype file not found")
+
+
+@app.post("/api/load-sample-prototype")
+async def load_sample_prototype():
+    """Loads and ingests the prototype sample CSV dataset with 1-click in the dashboard."""
+    prototype_path = os.path.join(DATA_DIR, "sample_prototype_insert.csv")
+    if not os.path.exists(prototype_path):
+        prototype_path = sample_template_path
+    
+    if not os.path.exists(prototype_path):
+        raise HTTPException(status_code=404, detail="Prototype sample file not found")
+        
+    with open(prototype_path, "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        
+    ward_summaries = {}
+    for r in rows:
+        w = r.get("ward", "General")
+        occ = int(float(r.get("occupied_beds", 0)))
+        tot = int(float(r.get("total_beds", 100)))
+        adm = int(float(r.get("admissions", 0))) if "admissions" in r else 0
+        dis = int(float(r.get("discharges", 0))) if "discharges" in r else 0
+
+        if w not in ward_summaries:
+            ward_summaries[w] = {
+                "ward": w,
+                "latest_occupied": occ,
+                "total_beds": tot,
+                "admissions_sum": 0,
+                "discharges_sum": 0,
+                "record_count": 0
+            }
+        
+        ward_summaries[w]["latest_occupied"] = occ
+        ward_summaries[w]["total_beds"] = tot
+        ward_summaries[w]["admissions_sum"] += adm
+        ward_summaries[w]["discharges_sum"] += dis
+        ward_summaries[w]["record_count"] += 1
+
+    return {
+        "status": "success",
+        "filename": "sample_prototype_insert.csv",
+        "total_rows_ingested": len(rows),
+        "wards_detected": list(ward_summaries.keys()),
+        "ward_summaries": list(ward_summaries.values()),
+        "message": f"Successfully ingested {len(rows)} prototype records across {', '.join(ward_summaries.keys())} wards."
+    }
+
